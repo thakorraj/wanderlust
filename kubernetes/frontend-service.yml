@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: crud
+spec:
+  selector:
+    app: frontend
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 5173         # Port inside the cluster
+      targetPort: 5173   # Port the pod listens on
+      nodePort: 30001   # External port on the node (optional, can be left out for auto-assignment)
+
