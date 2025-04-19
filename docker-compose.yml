@@ -1,16 +1,17 @@
 version: "3.8"
+
 services:
   mongodb:
-    container_name: mongo
     image: mongo:latest
-    volumes:
-      - ./backend/data:/data
+    container_name: mongo
     ports:
       - "27017:27017"
+    volumes:
+      - ./backend/data:/data
 
   backend:
+    image: thakorrajp/wanderlust-backend
     container_name: backend
-    build: ./backend
     env_file:
       - ./backend/.env.docker
     ports:
@@ -19,19 +20,19 @@ services:
       - mongodb
 
   frontend:
+    image: thakorrajp/wanderlust-frontend
     container_name: frontend
-    build: ./frontend
     env_file:
       - ./frontend/.env.docker
     ports:
       - "5173:5173"
 
   redis:
-    container_name: redis
+    image: redis:7.0.5-alpine
     restart: unless-stopped
-    image: redis:7.0.5-alpine 
+    container_name: redis
     expose:
-        - 6379
+      - 6379
     depends_on:
       - mongodb
 
